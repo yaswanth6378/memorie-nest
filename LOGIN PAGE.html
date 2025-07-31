@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MemoryNest Login</title>
+  <!-- Google Fonts: Poppins for premium feel -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #141E30, #243B55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #f0f0f0;
+      margin: 0;
+    }
+    .login-container {
+      background: rgba(174, 59, 10, 0.9);
+      padding: 2.5rem 2.5rem 2rem 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(20, 30, 48, 0.5);
+      width: 370px;
+      max-width: 96vw;
+      text-align: center;
+    }
+    .login-logo {
+      margin-bottom: 1rem;
+    }
+    .login-logo img {
+      width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto 0.4rem auto;
+      filter: drop-shadow(0 4px 12px rgba(90,114,243,0.18));
+    }
+    .login-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #f8fafc;
+      margin-bottom: 1.7rem;
+      letter-spacing: 1px;
+    }
+    .input-group {
+      width: 100%;
+      margin: 0.8rem 0 0.2rem 0;
+    }
+    .input-group input {
+      width: 92%;
+      padding: 0.8rem;
+      margin: 0.25rem 0;
+      border: none;
+      border-radius: 9px;
+      font-size: 1.02rem;
+      background: #1f2a44;
+      color: #e0e0e0;
+      box-shadow: 0 1px 3px rgba(36,59,85,0.08);
+      transition: box-shadow 0.2s;
+    }
+    .input-group input:focus {
+      outline: none;
+      box-shadow: 0 2px 8px #5A72F366;
+      background: #2e4061;
+    }
+    .input-group input::placeholder {
+      color: #9aa0ac;
+      opacity: 1;
+    }
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #5A72F3 0%, #4091f7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.95rem 0;
+      margin-top: 1.2rem;
+      font-size: 1.13rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(90, 114, 243, 0.18);
+      letter-spacing: 1px;
+    }
+    .login-btn:hover {
+      background: linear-gradient(90deg, #3163e4 0%, #236dc6 100%);
+      box-shadow: 0 6px 18px rgba(50,70,200,0.19);
+    }
+    .links, .signup {
+      margin-top: 1.15rem;
+      font-size: 0.99rem;
+      color: #d3d9e7;
+    }
+    .links a, .signup a {
+      color: #5A72F3;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .links a:hover, .signup a:hover {
+      color: #86a3fa;
+    }
+    .social-login {
+      margin-top: 1.25rem;
+      background: #223255;
+      padding: 0.67rem 0;
+      border-radius: 7px;
+      color: #f0f0f0;
+      cursor: pointer;
+      font-size: 1.01rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 2px 6px rgba(90,114,243,0.09);
+      position: relative;
+    }
+    .social-login:hover {
+      background: #3b4d7a;
+      color: #c6d6f5;
+    }
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 1.3rem 0.5rem 1rem 0.5rem;
+        width: 97vw;
+      }
+      .login-logo img {
+        width: 75px;
+      }
+      .login-btn {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-logo">
+      <!-- Replace with your actual logo image filename/path -->
+      <img src="C:\Users\yaswa\Downloads\generated-image (1).png"alt="MemoryNest Logo">
+    </div>
+    <div class="login-title">Welcome back to MemoryNest!</div>
+    <form>
+      <div class="input-group">
+        <input type="email" placeholder="Email Address" required>
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password" required>
+      </div>
+      <button class="login-btn" type="submit">Log In</button>
+    </form>
+    <div class="links">
+      <a href="#">Forgot Password?</a>
+    </div>
+    <div class="signup-link">
+      Don't have an account?
+    <a href="sign-up.html">Sign Up</a>
+</div>
+  </div>
+ <!-- ...existing code... -->
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.querySelector('input[type="email"]').value;
+    const password = document.querySelector('input[type="password"]').value;
+
+    // Get users array
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    // Find user
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+      window.location.href = "PLATFORM.html";
+    } else if (users.some(u => u.email === email)) {
+      alert('Incorrect password!');
+    } else {
+      alert('Please sign up before logging in!');
+      window.location.href = "sign-up.html";
+    }
+  });
+</script>
+</body>
+</html>
