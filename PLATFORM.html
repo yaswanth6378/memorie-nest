@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MemoNest All Features Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  color: #23304b;
+  background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 40%, #a1c4fd 100%);
+  background-size: 200% 200%;
+  animation: gradientMove 10s ease-in-out infinite;
+  position: relative;
+  overflow-x: hidden;
+}
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+body::before, body::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+body::before {
+  width: 480px; height: 480px;
+  left: -120px; top: -120px;
+  background: radial-gradient(circle, #fcb69f 60%, #a1c4fd 100%);
+  opacity: 0.18;
+  filter: blur(60px);
+  animation: float1 14s ease-in-out infinite alternate;
+}
+body::after {
+  width: 320px; height: 320px;
+  right: -80px; bottom: -80px;
+  background: radial-gradient(circle, #a1c4fd 60%, #fcb69f 100%);
+  opacity: 0.15;
+  filter: blur(70px);
+  animation: float2 18s ease-in-out infinite alternate;
+}
+@keyframes float1 {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(40px);}
+}
+@keyframes float2 {
+  0% {transform: translateY(0);}
+  100% {transform: translateY(-30px);}
+}
+
+/* Glassmorphism container */
+.container {
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.55);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(99,102,241,0.13), 0 1.5px 8px rgba(0,0,0,0.07);
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  backdrop-filter: blur(8px) saturate(180%);
+  border: 1.5px solid rgba(99,102,241,0.08);
+}
+
+/* Modern input and button styles */
+input[type="text"], input[type="email"], input[type="date"], input[type="file"], textarea, select {
+  width: 95%;
+  padding: 0.7rem;
+  margin: 0.4rem 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  background: #e0e6ff;
+  box-shadow: 0 4px 16px #a1c4fd55;
+}
+button, .btn, .btn-mini {
+  background: linear-gradient(90deg, #a1c4fd 0%, #fcb69f 100%);
+  color: #23304b;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.3rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0.3rem 0.2rem;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.09);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover, .btn:hover, .btn-mini:hover {
+  background: linear-gradient(90deg, #fcb69f 0%, #a1c4fd 100%);
+  box-shadow: 0 4px 16px #fcb69f55;
+}
+select {
+  cursor: pointer;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Headings and key features highlight */
+h1, h2, .feature-title {
+  color: #ff7e5f;
+  text-shadow: 0 2px 12px #fcb69f33;
+}
+.feature-icon {
+  font-size: 1.5em;
+  color: #a1c4fd;
+  margin-right: 10px;
+}
+.section {
+  background: rgba(255,255,255,0.38);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(99,102,241,0.07);
+  margin-bottom: 24px;
+  padding: 1.2rem 1rem;
+}
+/* Premium memory title and description */
+.memory-item h3 {
+  font-size: 1.28em;
+  font-weight: 700;
+  color: #4f46e5;
+  background: linear-gradient(90deg, #a1c4fd 0%, #fcb69f 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 12px #a1c4fd33;
+  margin-bottom: 6px;
+}
+.memory-item p {
+  font-size: 1.08em;
+  color: #23304b;
+  background: rgba(255,255,255,0.7);
+  border-radius: 8px;
+  padding: 7px 12px;
+  box-shadow: 0 2px 8px #a1c4fd22;
+  margin-bottom: 8px;
+}
+
+/* Premium label style */
+label {
+  font-weight: 600;
+  color: #4f46e5;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  display: inline-block;
+}
+
+/* Premium button style */
+button, .btn, .btn-mini {
+  background: linear-gradient(90deg, #a1c4fd 0%, #fcb69f 100%);
+  color: #23304b;
+  border: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.12rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0.3rem 0.2rem;
+  box-shadow: 0 4px 16px #a1c4fd33;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+button:hover, .btn:hover, .btn-mini:hover {
+  background: linear-gradient(90deg, #fcb69f 0%, #a1c4fd 100%);
+  box-shadow: 0 8px 24px #fcb69f55;
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Premium input style */
+input[type="text"], input[type="email"], input[type="date"], input[type="file"], textarea, select {
+  width: 95%;
+  padding: 0.8rem;
+  margin: 0.4rem 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.08rem;
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 2px 12px #a1c4fd22;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  background: #e0e6ff;
+  box-shadow: 0 4px 16px #a1c4fd55;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to MemoNest</h1>
+    <div class="subtitle" style="color:#6f7891;text-align:center; margin-bottom:30px; font-size:1.15em;">
+      Make, organize, and share memories—simply and securely.<br>
+      Try every feature below!
+    </div>
+
+    <!-- 1: Upload Memories feature -->
+    <div id="memories-feature" class="section">
+      <button onclick="showUploadForm()" id="upload-mem-btn">➕ Upload Your Memories</button>
+      <form id="upload-form" autocomplete="off" class="hidden">
+        <input type="text" id="mem-title" placeholder="Memory Title" required><br>
+        <textarea id="mem-desc" rows="2" placeholder="Description"></textarea><br>
+        <select id="mem-category" required>
+          <option value="" disabled selected>Choose category</option>
+          <option>Childhood</option>
+          <option>School</option>
+          <option>College</option>
+          <option>Family</option>
+          <option>Friends</option>
+          <option>Other</option>
+        </select><br>
+        <input type="text" id="mem-tags" placeholder="Tags (comma separated: event, person, etc.)"><br>
+        <label>Photo: <input type="file" id="mem-photo" accept="image/*"/></label><br>
+        <label>Video: <input type="file" id="mem-video" accept="video/*"/></label><br>
+        <label>Voice: <input type="file" id="mem-audio" accept="audio/*"/></label><br>
+        <div>
+          <span style="margin-right:7px;">Privacy:</span>
+          <select id="mem-privacy" class="privacy-select">
+            <option>Private</option>
+            <option>Friends</option>
+            <option>Family</option>
+            <option>Public</option>
+          </select>
+        </div>
+        <button type="submit">Add Memory</button>
+        <button type="button" class="btn btn-mini btn-gray" onclick="hideUploadForm()">Cancel</button>
+      </form>
+      <div id="upload-success" style="color:green;font-size:1em;display:none;">Memory added!</div>
+    </div>
+
+    <!-- 2–10: Features list with icons/descriptions -->
+    <div class="features-list section">
+      <div class="feature-item"><span class="feature-icon">📷🎥🎤</span>
+        <div><div class="feature-title">1. Upload Your Memories</div>
+        <div class="feature-desc">Add photos, videos, and voice recordings—keep all your special moments together in one place.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">📁</span>
+        <div><div class="feature-title">2. Organize by Life Stages</div>
+        <div class="feature-desc">Sort memories into categories like childhood, school, college, and family. Quickly find memories from every part of your life.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">🔍🏷️</span>
+        <div><div class="feature-title">3. Easy Search and Tags</div>
+        <div class="feature-desc">Use words or tags to find any memory in seconds. Search by event, person, or place.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">🗓️⏳</span>
+        <div><div class="feature-title">4. Interactive Timeline</div>
+        <div class="feature-desc">See your memories on a timeline. Browse by year or jump to important milestones.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">📝📢</span>
+        <div><div class="feature-title">5. Create and Share Stories</div>
+        <div class="feature-desc">Combine photos, videos, and voice notes into a story with captions. Share stories with friends or keep them private—your choice.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">🔒👀</span>
+        <div><div class="feature-title">6. Privacy Controls</div>
+        <div class="feature-desc">Decide who can see, comment on, or add to your memories. Make albums private or share only with people you trust.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">⏰🎉</span>
+        <div><div class="feature-title">7. Memory Reminders</div>
+        <div class="feature-desc">Get reminders for birthdays, anniversaries, or special dates. Enjoy highlights from past years with “On this day.”</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">💾⬇️</span>
+        <div><div class="feature-title">8. Download and Backup</div>
+        <div class="feature-desc">Download your memories whenever you want. Backups keep your moments safe forever.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">👨‍👩‍👧‍👦🤝</span>
+        <div><div class="feature-title">9. Collaborate with Others</div>
+        <div class="feature-desc">Let family and friends add their own memories to shared albums—perfect for big events, holidays, and trips.</div></div>
+      </div>
+      <div class="feature-item"><span class="feature-icon">🛡️🔑</span>
+        <div><div class="feature-title">10. Security and Access</div>
+        <div class="feature-desc">Your memories are secure with powerful encryption and protected login. Only you decide who can view your memories.</div></div>
+      </div>
+    </div>
+
+    <!-- 3: Search, Tag, Filter -->
+    <div id="filters" style="margin-top:30px;">
+      <input id="search-bar" type="text" placeholder="Search by keyword..." oninput="displayMemories()">
+      <input id="tag-bar" type="text" placeholder="Search by tag..." oninput="displayMemories()">
+      <select id="cat-bar" onchange="displayMemories()">
+        <option value="">All categories</option>
+        <option>Childhood</option>
+        <option>School</option>
+        <option>College</option>
+        <option>Family</option>
+        <option>Friends</option>
+        <option>Other</option>
+      </select>
+      <span class="reminder" id="reminder-msg" style="font-size:1em;display:none;"></span>
+      <a id="download-link" class="hidden" href="#" download="memonest_backup.json">Download Memories</a>
+    </div>
+
+    <!-- 4: Timeline (simple year/event grouping by demo) -->
+    <div id="timeline" class="section">
+      <h2 style="color:#2a46a6;font-size:1.23em;margin-bottom:10px;">Your Interactive Timeline</h2>
+      <div id="timeline-content"><div style="color:#7b8ab5;">Add memories to see your timeline here.</div></div>
+    </div>
+
+    <!-- 5: Create/Share Story (combine memories into a story; privacy/recipients shown) -->
+    <div id="story-feature" class="story-section">
+      <h2 style="color:#2a46a6;font-size:1.08em; margin:8px 0;">Create and Share Story</h2>
+      <form id="story-form" class="hidden">
+        <input type="text" id="story-title" placeholder="Story Title" required><br>
+        <textarea id="story-caption" placeholder="Write a short caption." rows="2"></textarea><br>
+        <select id="story-privacy">
+          <option>Private</option><option>Friends</option><option>Family</option><option>Public</option>
+        </select><br>
+        <button type="submit">Save Story</button>
+        <button type="button" class="btn btn-gray btn-mini" onclick="hideStoryForm()">Cancel</button>
+      </form>
+      <button onclick="showStoryForm()" id="create-story-btn" style="margin-top:7px;">➕ New Story</button>
+      <div id="stories-list"></div>
+    </div>
+
+    <!-- 6–10: Collaboration, privacy demo messages -->
+    <div class="section">
+      <div style="margin-top:17px;">
+        <span class="collab">👨‍👩‍👧‍👦 Add collaborators (share with family/friends):</span>
+        <button class="btn-mini" style="background:#42d697;" onclick="alert('Feature for future update!')">Invite</button>
+        <span class="secure">🛡️🔑 Security: All your memories are "locally encrypted" (in demo), and only accessible on your device.</span>
+      </div>
+    </div>
+<!-- Special Dates Reminder Section -->
+<div class="section" style="margin-top:30px;">
+  <h2 style="color:#2a46a6;font-size:1.08em;">Special Dates Reminders</h2>
+  <form id="special-date-form" style="margin-bottom:10px;">
+    <input type="text" id="special-title" placeholder="Event (e.g. Birthday)" required>
+    <input type="date" id="special-date" required>
+    <button type="submit">Add Reminder</button>
+  </form>
+  <div id="special-dates-list"></div>
+</div>
+    <!-- 7: Memories List -->
+    <div class="memories-section section">
+      <h2 style="color:#2a46a6;font-size:1.15em;margin-bottom:7px;">Your Memories</h2>
+      <div id="memories-list"><p style="color:#7b8ab5;">No memories uploaded yet.</p></div>
+    </div>
+  </div>
+<!-- JS logic for all features -->
+<script>
+  // Data storage variables
+ // ...existing code...
+let memories = JSON.parse(localStorage.getItem('memories') || '[]');
+let stories = [];
+// ...existing code...
+  // Upload form show/hide
+// ...existing code...
+
+function deleteMemory(idx) {
+  if (confirm("Are you sure you want to delete this memory?")) {
+    memories.splice(idx, 1);
+    localStorage.setItem('memories', JSON.stringify(memories));
+    displayMemories();
+    updateTimeline();
+    updateDownloadLink && updateDownloadLink();
+  }
+}
+
+// ...existing code...
+
+function checkSpecialReminders() {
+  const today = new Date();
+  const todayStr = today.toISOString().slice(5, 10); // "MM-DD"
+  const found = specialDates.filter(d => d.date.slice(5, 10) === todayStr);
+  const remMsg = document.getElementById('reminder-msg');
+  if (found.length) {
+    remMsg.style.display = "";
+    remMsg.textContent = `🎉 Reminder: Today is ${found.map(d => d.title).join(', ')}!`;
+  }
+}
+
+// ...existing code...
+  function showUploadForm() { document.getElementById('upload-form').classList.remove('hidden'); document.getElementById('upload-mem-btn').style.display="none";}
+  function hideUploadForm() {
+    document.getElementById('upload-form').reset();
+    document.getElementById('upload-form').classList.add('hidden');
+    document.getElementById('upload-mem-btn').style.display="inline-block";
+    document.getElementById('upload-success').style.display = "none";
+  }
+  // Utility: Convert file to DataURL for demo
+  function fileToDataURL(file) {
+    return new Promise(resolve => {if (!file) return resolve(null);
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result); reader.readAsDataURL(file);});}
+  // Upload Memory Form logic
+  // ...existing code...
+document.getElementById('upload-form').onsubmit = async function(e){
+  e.preventDefault();
+  const title = document.getElementById('mem-title').value.trim();
+  const description = document.getElementById('mem-desc').value.trim();
+  const category = document.getElementById('mem-category').value;
+  const tags = document.getElementById('mem-tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const privacy = document.getElementById('mem-privacy').value;
+  const photoFile = document.getElementById('mem-photo').files[0];
+  const videoFile = document.getElementById('mem-video').files[0];
+  const audioFile = document.getElementById('mem-audio').files[0];
+  const photo = await fileToDataURL(photoFile);
+  const video = await fileToDataURL(videoFile);
+  const audio = await fileToDataURL(audioFile);
+  let date = new Date();
+  let mem = { id:Date.now(), title, description, category, date, tags, photo, video, audio, privacy};
+  memories.unshift(mem);
+  // Save to localStorage
+  localStorage.setItem('memories', JSON.stringify(memories));
+  document.getElementById('upload-form').reset();
+  document.getElementById('upload-form').classList.add('hidden');
+  document.getElementById('upload-success').style.display = "block";
+  setTimeout(()=>{document.getElementById('upload-success').style.display = "none";},1600);
+  document.getElementById('upload-mem-btn').style.display="inline-block";
+  displayMemories(); updateTimeline();
+  updateDownloadLink();
+};
+// ...existing code...
+
+
+  // Display memories (with search, filter, tag, privacy)
+ // ...existing code...
+function displayMemories() {
+  const area = document.getElementById('memories-list');
+  if (!memories.length) {
+    area.innerHTML = '<span style="color:#7b8ab5;">No memories yet.</span>';
+    return;
+  }
+  area.innerHTML = memories.map((m, i) => `
+    <div class="memory-item">
+      <h3>${m.title}</h3>
+      <p>${m.description}</p>
+      <!-- Add your media display code here -->
+      <button onclick="deleteMemory(${i})" style="background:#e74c3c;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;margin-top:8px;">Delete</button>
+    </div>
+  `).join('');
+}
+// ...existing code...
+  
+  // Timeline feature
+  function updateTimeline() {
+    const tcont=document.getElementById('timeline-content');
+    if(!memories.length){ tcont.innerHTML='<div style="color:#7b8ab5;">Add memories to see your timeline here.</div>'; return;}
+    let events = {};
+    memories.forEach(m=>{
+      let yr = (new Date(m.date)).getFullYear();
+      if(!events[yr]) events[yr]=[];
+      events[yr].push(m);
+    });
+    let years = Object.keys(events).sort((a,b)=>b-a);
+    let html='';
+    for(let yr of years){
+      html+=`<div style="color:#196be3;font-weight:bold;font-size:1.04em;margin-bottom:4px;">${yr}</div>`;
+      for(let m of events[yr]){
+        html+= `<div class="timeline-event"><b>${m.title}</b> <span class="memory-category">(${m.category})</span>
+        <span class="memory-date">${(new Date(m.date)).toLocaleDateString()}</span>`;
+        if(m.tags.length) html+=`<span class="memory-tags">🏷️ ${m.tags.join(', ')}</span>`;
+        html+=`</div>`;
+      }
+    }
+    tcont.innerHTML=html;
+  }
+  // Download/Backup (feature 8)
+  function updateDownloadLink() {
+    let link = document.getElementById('download-link');
+    if(!memories.length){link.classList.add('hidden'); return;}
+    let blob = new Blob([JSON.stringify(memories)], { type: "application/json" });
+    link.href = URL.createObjectURL(blob);
+    link.classList.remove('hidden');
+  }
+  // Reminder ("on this day" highlights, feature 7; demo only: shows if any memory matches today's day/month)
+  setInterval(()=>{
+    let remMsg = document.getElementById('reminder-msg');
+    if(!memories.length){ remMsg.style.display="none"; return;}
+    let today = (new Date()).toLocaleDateString().slice(0,5); // e.g., "7/28"
+    let found = memories.filter(m=>(new Date(m.date)).toLocaleDateString().slice(0,5)===today);
+    if(found.length){
+      remMsg.style.display="";
+      remMsg.textContent = `🎉 Today in history: "${found[0].title}" (${(new Date(found[0].date)).getFullYear()})`;
+    }else remMsg.style.display="none";
+  },1800);
+
+  // Story combine/share (feature 5)
+  function showStoryForm(){ document.getElementById('story-form').classList.remove('hidden'); document.getElementById('create-story-btn').style.display="none";}
+  function hideStoryForm(){ document.getElementById('story-form').reset(); document.getElementById('story-form').classList.add('hidden'); document.getElementById('create-story-btn').style.display="inline-block"; }
+  document.getElementById('story-form').onsubmit = function(e){
+    e.preventDefault();
+    const title = document.getElementById('story-title').value.trim();
+    const caption = document.getElementById('story-caption').value.trim();
+    const privacy = document.getElementById('story-privacy').value;
+    // For demo: add first 1–3 recent memories to the story
+    let items = memories.slice(0,3).map(m=>m.title).join(', ');
+    stories.unshift({title, caption, privacy, contents:items});
+    hideStoryForm();
+    showStories();
+  }
+  function showStories(){
+    let area=document.getElementById('stories-list');
+    if(!stories.length){ area.innerHTML=''; return;}
+    area.innerHTML='';
+    for(let s of stories){
+      area.innerHTML += `<div class="story"><b>${s.title}</b>
+      <div style="color:#6d6f9d;">${s.caption}</div>
+      <div>With: <em>${s.privacy}</em></div>
+      <div style="color:#2777a7;font-size:.96em;">Memories: ${s.contents}</div>
+      <div><span style="color:#ff9e26;">[Story sharing: ${s.privacy}]</span></div>
+      </div>`;
+    }
+  }
+
+  // On first load, set up placeholder
+  displayMemories(); updateTimeline(); showStories();
+  // Special Dates Reminder Logic
+let specialDates = JSON.parse(localStorage.getItem('specialDates') || '[]');
+
+function saveSpecialDates() {
+  localStorage.setItem('specialDates', JSON.stringify(specialDates));
+}
+
+function showSpecialDates() {
+  const list = document.getElementById('special-dates-list');
+  if (!specialDates.length) {
+    list.innerHTML = '<span style="color:#7b8ab5;">No reminders set yet.</span>';
+    return;
+  }
+  list.innerHTML = specialDates.map((d, i) =>
+    `<div>
+      <b>${d.title}</b> - ${d.date}
+      <button class="btn-mini btn-gray" onclick="removeSpecialDate(${i})">Remove</button>
+    </div>`
+  ).join('');
+}
+
+function removeSpecialDate(idx) {
+  specialDates.splice(idx, 1);
+  saveSpecialDates();
+  showSpecialDates();
+}
+
+document.getElementById('special-date-form').onsubmit = function(e) {
+  e.preventDefault();
+  const title = document.getElementById('special-title').value.trim();
+  const date = document.getElementById('special-date').value;
+  if (!title || !date) return;
+  specialDates.push({ title, date });
+  saveSpecialDates();
+  showSpecialDates();
+  this.reset();
+};
+
+// Show today's reminders
+function checkSpecialReminders() {
+  const today = new Date();
+  const todayStr = today.toISOString().slice(5, 10); // "MM-DD"
+  const found = specialDates.filter(d => d.date.slice(5, 10) === todayStr);
+  const remMsg = document.getElementById('reminder-msg');
+  if (found.length) {
+    remMsg.style.display = "";
+    remMsg.textContent = `🎉 Reminder: Today is ${found.map(d => d.title).join(', ')}!`;
+  }
+  
+}
+
+
+showSpecialDates();
+checkSpecialReminders();
+setInterval(checkSpecialReminders, 3600 * 1000); // Check every hour
+</script>
+</body>
+</html>
+

@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MemoryNest Login</title>
-  <!-- Google Fonts: Poppins for premium feel -->
+  <title>MemoryNest Signup</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -16,8 +15,8 @@
       color: #f0f0f0;
       margin: 0;
     }
-    .login-container {
-      background: rgba(174, 59, 10, 0.9);
+    .signup-container {
+      background: rgba(36, 59, 85, 0.90);
       padding: 2.5rem 2.5rem 2rem 2.5rem;
       border-radius: 16px;
       box-shadow: 0 8px 30px rgba(20, 30, 48, 0.5);
@@ -25,17 +24,17 @@
       max-width: 96vw;
       text-align: center;
     }
-    .login-logo {
+    .signup-logo {
       margin-bottom: 1rem;
     }
-    .login-logo img {
+    .signup-logo img {
       width: 100px;
       height: auto;
       display: block;
       margin: 0 auto 0.4rem auto;
       filter: drop-shadow(0 4px 12px rgba(90,114,243,0.18));
     }
-    .login-title {
+    .signup-title {
       font-size: 1.15rem;
       font-weight: 600;
       color: #f8fafc;
@@ -67,7 +66,7 @@
       color: #9aa0ac;
       opacity: 1;
     }
-    .login-btn {
+    .signup-btn {
       width: 100%;
       background: linear-gradient(90deg, #5A72F3 0%, #4091f7 100%);
       color: #fff;
@@ -82,25 +81,25 @@
       box-shadow: 0 4px 15px rgba(90, 114, 243, 0.18);
       letter-spacing: 1px;
     }
-    .login-btn:hover {
+    .signup-btn:hover {
       background: linear-gradient(90deg, #3163e4 0%, #236dc6 100%);
       box-shadow: 0 6px 18px rgba(50,70,200,0.19);
     }
-    .links, .signup {
+    .links, .login-link {
       margin-top: 1.15rem;
       font-size: 0.99rem;
       color: #d3d9e7;
     }
-    .links a, .signup a {
+    .links a, .login-link a {
       color: #5A72F3;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s;
     }
-    .links a:hover, .signup a:hover {
+    .links a:hover, .login-link a:hover {
       color: #86a3fa;
     }
-    .social-login {
+    .social-signup {
       margin-top: 1.25rem;
       background: #223255;
       padding: 0.67rem 0;
@@ -113,70 +112,77 @@
       box-shadow: 0 2px 6px rgba(90,114,243,0.09);
       position: relative;
     }
-    .social-login:hover {
+    .social-signup:hover {
       background: #3b4d7a;
       color: #c6d6f5;
     }
     @media (max-width: 600px) {
-      .login-container {
+      .signup-container {
         padding: 1.3rem 0.5rem 1rem 0.5rem;
         width: 97vw;
       }
-      .login-logo img {
+      .signup-logo img {
         width: 75px;
       }
-      .login-btn {
+      .signup-btn {
         font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-logo">
+  <div class="signup-container">
+    <div class="signup-logo">
       <!-- Replace with your actual logo image filename/path -->
-      <img src="C:\Users\yaswa\Downloads\generated-image (1).png"alt="MemoryNest Logo">
-    </div>
-    <div class="login-title">Welcome back to MemoryNest!</div>
+     <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=100&q=80" alt="MemoryNest Logo" style="border-radius:16px; box-shadow:0 4px 16px #5A72F355;">
+    <div class="signup-title">Create your MemoryNest account</div>
     <form>
+      <div class="input-group">
+        <input type="text" placeholder="Full Name" required>
+      </div>
       <div class="input-group">
         <input type="email" placeholder="Email Address" required>
       </div>
       <div class="input-group">
         <input type="password" placeholder="Password" required>
       </div>
-      <button class="login-btn" type="submit">Log In</button>
+      <div class="input-group">
+        <input type="password" placeholder="Confirm Password" required>
+      </div>
+      <button class="signup-btn" type="submit">Sign Up</button>
     </form>
-    <div class="links">
-      <a href="#">Forgot Password?</a>
+    <div class="login-link">
+      Already have an account?
+      <a href="LOGIN PAGE.html">Log In</a>
     </div>
-    <div class="signup-link">
-      Don't have an account?
-    <a href="sign-up.html">Sign Up</a>
-</div>
+    <div class="social-signup">
+      — Sign up with Google —
+    </div>
   </div>
- <!-- ...existing code... -->
+  <!-- ...existing code... -->
 <script>
   document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault();
     const email = document.querySelector('input[type="email"]').value;
     const password = document.querySelector('input[type="password"]').value;
 
-    // Get users array
+    // Get existing users or create new array
     let users = JSON.parse(localStorage.getItem('users')) || [];
 
-    // Find user
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if (user) {
-      window.location.href = "PLATFORM.html";
-    } else if (users.some(u => u.email === email)) {
-      alert('Incorrect password!');
-    } else {
-      alert('Please sign up before logging in!');
-      window.location.href = "sign-up.html";
+    // Check if email already exists
+    if (users.some(user => user.email === email)) {
+      alert('Email already registered. Please log in.');
+      window.location.href = "LOGIN PAGE.html";
+      return;
     }
+
+    // Add new user
+    users.push({ email, password });
+    localStorage.setItem('users', JSON.stringify(users));
+
+    alert('Signup successful! Please log in.');
+    window.location.href = "LOGIN PAGE.html";
   });
 </script>
 </body>
-</html>
+</body>
