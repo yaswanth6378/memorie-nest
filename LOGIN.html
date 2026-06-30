@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryNest - Log In</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
+            background-size: 300% 300%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #f1f5f9;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            width: 380px;
+            max-width: 90vw;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-logo {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .login-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #a5b4fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.85rem;
+            margin-top: 0.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            color: #fff;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .input-group input::placeholder {
+            color: #64748b;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 0.95rem 0;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(90deg, #4f46e5 0%, #4338ca 100%);
+        }
+
+        .links,
+        .signup-link {
+            margin-top: 1.2rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .links a,
+        .signup-link a {
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .links a:hover,
+        .signup-link a:hover {
+            color: #a5b4fc;
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 0;
+            border-radius: 12px;
+            color: #e2e8f0;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .social-login:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-logo">🪺</div>
+        <div class="login-title">Welcome back to MemoryNest</div>
+        <form id="login-form">
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="login-email" placeholder="name@example.com" required>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" required>
+            </div>
+            <button class="login-btn" type="submit">Log In</button>
+        </form>
+        <div class="links">
+            <a href="#">Forgot Password?</a>
+        </div>
+        <div class="signup-link">
+            Don't have an account? <a href="SIGNUP.html">Sign Up</a>
+        </div>
+        <div class="social-login">
+            Continue with Google
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                window.location.href = "PLATFORM.html";
+            } else if (users.some(u => u.email === email)) {
+                alert('Incorrect password!');
+            } else {
+                alert('Account not found. Please sign up first!');
+                window.location.href = "SIGNUP.html";
+            }
+        });
+    </script>
+</body>
+
+</html>
