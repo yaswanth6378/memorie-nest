@@ -181,6 +181,7 @@
                 <h2>Add Memory Record</h2>
                 <input type="text" id="mem-title" placeholder="Memory Title" required>
                 <textarea id="mem-desc" rows="3" placeholder="What happened? Write down your story..."></textarea>
+
                 <select id="mem-category" required>
                     <option value="" disabled selected>Select Life Stage Category</option>
                     <option>Childhood</option>
@@ -190,11 +191,15 @@
                     <option>Friends</option>
                     <option>Other</option>
                 </select>
+
                 <input type="text" id="mem-tags" placeholder="Tags (comma-separated: summer, birthday, trip)">
+
                 <label style="display:block; margin: 10px 0 5px 0;">Attach Photo:</label>
                 <input type="file" id="mem-photo" accept="image/*">
+
                 <label style="display:block; margin: 10px 0 5px 0;">Attach Video:</label>
                 <input type="file" id="mem-video" accept="video/*">
+
                 <label style="display:block; margin: 10px 0 5px 0;">Attach Audio Note:</label>
                 <input type="file" id="mem-audio" accept="audio/*">
 
@@ -294,7 +299,6 @@
             const searchKeyword = document.getElementById('search-bar').value.toLowerCase();
             const selectedCategory = document.getElementById('cat-bar').value;
 
-            // Sync fresh memory array context from localStorage
             memories = JSON.parse(localStorage.getItem('memories') || '[]');
 
             let filtered = memories.filter(m => {
@@ -314,7 +318,7 @@
                     <span style="font-size:0.8rem; color:#64748b;">${m.category} • ${new Date(m.date).toLocaleDateString()}</span>
                     <p style="margin: 10px 0; font-size:0.95rem;">${m.description}</p>
                     
-                    ${m.photo ? `<img src="${m.photo}" alt="memory path">` : ''}
+                    ${m.photo ? `<img src="${m.photo}" alt="memory picture">` : ''}
                     ${m.video ? `<video src="${m.video}" controls></video>` : ''}
                     ${m.audio ? `<audio src="${m.audio}" controls></audio>` : ''}
                     
@@ -328,7 +332,10 @@
 
         function updateTimeline() {
             const tcont = document.getElementById('timeline-content');
-            if (!memories.length) { tcont.innerHTML = 'Add memories to unlock timeline viewpoints.'; return; }
+            if (!memories.length) {
+                tcont.innerHTML = 'Add memories to unlock timeline viewpoints.';
+                return;
+            }
 
             let events = {};
             memories.forEach(m => {
@@ -350,13 +357,15 @@
 
         function updateDownloadLink() {
             let link = document.getElementById('download-link');
-            if (!memories.length) { link.classList.add('hidden'); return; }
+            if (!memories.length) {
+                link.classList.add('hidden');
+                return;
+            }
             let blob = new Blob([JSON.stringify(memories)], { type: "application/json" });
             link.href = URL.createObjectURL(blob);
             link.classList.remove('hidden');
         }
 
-        // Initialize display content updates
         window.onload = function () {
             displayMemories();
             updateTimeline();
